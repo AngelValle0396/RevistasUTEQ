@@ -10,11 +10,11 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="385dp"
-        android:layout_marginLeft="12dp"
         android:layout_height="310dp"
         android:layout_gravity="center"
-        card_view:cardCornerRadius="30dp"
-        card_view:cardBackgroundColor="#E6C7C7">
+        android:layout_marginLeft="12dp"
+        card_view:cardBackgroundColor="#FBFAFA"
+        card_view:cardCornerRadius="30dp">
 
 
         <ImageView
