@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="320dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_width="match_parent">
+    <!-- A CardView that contains a TextView -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="385dp"
+        android:layout_marginLeft="12dp"
+        android:layout_height="310dp"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="30dp"
+        card_view:cardBackgroundColor="#E6C7C7">
+
+
+        <ImageView
+            android:id="@+id/imgjrn"
+            android:layout_width="150dp"
+            android:layout_height="203dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="6dp"
+
+            android:src="@drawable/journalcs"></ImageView>
+
+        <LinearLayout
+
+            android:layout_width="229dp"
+            android:layout_height="293dp"
+            android:layout_gravity="right|center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/txtJournalN"
+                android:layout_width="219dp"
+                android:layout_height="56dp"
+                android:text="Ciencia Sociales y Económicas"
+
+                android:textAlignment="center"
+
+                android:textSize="20dp"
+                android:textStyle="bold"></TextView>
+
+            <TextView
+                android:id="@+id/txtJournalD"
+                android:layout_width="219dp"
+                android:layout_height="230dp"
+                android:text="Aquí va la descripción de la revista tal"
+                android:textSize="12dp"></TextView>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
