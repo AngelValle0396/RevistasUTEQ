@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_gravity="center"
+        app:cardCornerRadius="12dp"
         android:layout_margin="12dp">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,7 +18,7 @@
                 android:id="@+id/img_sub_item"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_foreground" />
+                android:src="@drawable/bookmark" />
 
             <LinearLayout
                 android:layout_width="329dp"
@@ -31,17 +32,15 @@
                     android:id="@+id/tv_sub_item_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
                     android:text="Sub item title" />
                 <TextView
                     android:id="@+id/fechaAR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fecha" />
-                <TextView
-                    android:id="@+id/doiAR"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="DOI" />
+
                 <TextView
                     android:id="@+id/autoresAR"
                     android:layout_width="match_parent"

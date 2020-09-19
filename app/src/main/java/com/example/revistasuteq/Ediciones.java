@@ -95,6 +95,7 @@ public class Ediciones extends AppCompatActivity implements Asynchtask {
                 public void onClick(View v) {
                     bundle=new Bundle();
                     bundle.putString("idIS",   lstediciones.get(myrv.getChildAdapterPosition(v)).getIdIS());
+                    bundle.putString("urlS",   lstediciones.get(myrv.getChildAdapterPosition(v)).getImgIS());
                     intent.putExtras(bundle);
                     Toast.makeText(getApplicationContext(),"Seleccionó la edición:" + lstediciones.get(myrv.getChildAdapterPosition(v)).getTituloIS(),Toast.LENGTH_SHORT).show();
                     startActivity(intent);

@@ -20,7 +20,7 @@
 
         <ImageView
             android:id="@+id/imgIS"
-            android:layout_width="116dp"
+            android:layout_width="129dp"
             android:layout_height="159dp"
             android:layout_gravity="left|center"
             android:layout_marginLeft="6dp"

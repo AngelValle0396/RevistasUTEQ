@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.revistasuteq.WebServices.Asynchtask;
 import com.example.revistasuteq.WebServices.WebService;
 import com.example.revistasuteq.adaptador.AdaptadorCategoria;
@@ -23,6 +25,7 @@ import com.example.revistasuteq.modelo.Articulo;
 import com.example.revistasuteq.modelo.Categoria;
 import com.example.revistasuteq.modelo.Edicion;
 import com.example.revistasuteq.modelo.Revista;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,11 +52,13 @@ public class Categorias extends AppCompatActivity {
     Bundle bundle;
     List<Articulo> subItemList;
     String idC,idIS;
+    ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categorias);
         rvItem =  findViewById(R.id.rv_item);
+        img=findViewById(R.id.img_sub_item);
         rvItem.setLayoutManager(new LinearLayoutManager(Categorias.this));
         queue= Volley.newRequestQueue(Categorias.this);
        // queue2= Volley.newRequestQueue(Categorias.this);
@@ -62,6 +67,7 @@ public class Categorias extends AppCompatActivity {
         //AdaptadorCategoria itemAdapter = new AdaptadorCategoria(buildItemList());
         handleSSLHandshake();
         LgVolley(bundle.getString("idIS"));
+
 
     }
 

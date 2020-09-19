@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.revistasuteq.R;
 import com.example.revistasuteq.modelo.Categoria;
+import com.example.revistasuteq.modelo.Edicion;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class AdaptadorCategoria extends RecyclerView.Adapter<AdaptadorCategoria.
 
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<Categoria> itemList;
+
+
 
     public AdaptadorCategoria(List<Categoria> itemList) {
         this.itemList = itemList;

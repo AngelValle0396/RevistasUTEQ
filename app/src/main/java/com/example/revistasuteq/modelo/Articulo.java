@@ -8,8 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Articulo {
-    private String tituloA, doiA,abstractA,fechaA,urlPDFA,urlHTMLA,keywordsA,section;
+    private String tituloA, doiA,abstractA,fechaA,urlPDFA,urlHTMLA,keywordsA,section,autoresA;
+    private JSONArray objectAu;
+    private String aux="";
 
+    public String getAutoresA() {
+        return autoresA;
+    }
+
+    public void setAutoresA(String autoresA) {
+        this.autoresA = autoresA;
+    }
+
+    private ArrayList<Autores> arrayListAU;
     public Articulo( ) {
 
     }
@@ -78,7 +89,7 @@ public class Articulo {
         this.keywordsA = keywordsA;
     }
 
-    public Articulo(String tituloA, String doiA, String abstractA, String fechaA, String urlPDFA, String urlHTMLA, String keywordsA,String section) {
+    public Articulo(String tituloA, String doiA, String abstractA, String fechaA, String urlPDFA, String urlHTMLA, String keywordsA,String section,String autores) {
         this.tituloA = tituloA;
         this.doiA = doiA;
         this.abstractA = abstractA;
@@ -87,13 +98,30 @@ public class Articulo {
         this.urlHTMLA = urlHTMLA;
         this.keywordsA = keywordsA;
         this.section=section;
+        this.autoresA=autores;
     }
+
     public Articulo(JSONObject item) throws JSONException {
 
         this.tituloA =item.getString("title");
         this.doiA = item.getString("doi");
         this.abstractA = item.getString("abstract");
         this.fechaA = item.getString("date_published");
+        this.objectAu=item.getJSONArray("authors");
+
+        for (int i=0;i<this.objectAu.length();i++){
+            JSONObject object2 = (JSONObject) this.objectAu.get(i);
+            Autores au =new Autores();
+            aux=aux+object2.getString("nombres");
+
+            if (i!=this.objectAu.length()-1){aux=aux+", ";}
+
+            au.setAutores(object2.getString("nombres"));
+            au.setFiliacion(object2.getString("filiacion"));
+            au.setEmail(object2.getString("email"));
+            //arrayListAU.add(au);
+        }
+        this.autoresA=aux;
         this.urlPDFA = item.getString("section");
         this.urlHTMLA = item.getString("section");
         this.keywordsA = item.getString("section");
@@ -132,7 +160,8 @@ public class Articulo {
                             articulos.get(j).getUrlPDFA(),
                             articulos.get(j).getUrlHTMLA(),
                             articulos.get(j).getKeywordsA(),
-                            articulos.get(j).getSection()
+                            articulos.get(j).getSection(),
+                            articulos.get(j).getAutoresA()
                     ));
                 }
             }
