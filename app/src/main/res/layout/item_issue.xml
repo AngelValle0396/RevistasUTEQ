@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="185dp"
+
+    android:layout_marginEnd="5dp"
+    android:layout_width="match_parent">
+    <!-- A CardView that contains a TextView -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_viewissue"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="1dp"
+        card_view:cardBackgroundColor="#FBFAFA"
+        card_view:cardCornerRadius="20dp">
+
+
+        <ImageView
+            android:id="@+id/imgIS"
+            android:layout_width="116dp"
+            android:layout_height="159dp"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="6dp"
+
+            android:src="@drawable/journalcs"></ImageView>
+
+        <LinearLayout
+
+            android:layout_width="259dp"
+            android:layout_height="168dp"
+            android:layout_gravity="right|center"
+
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/txtNombreIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Título :"></TextView>
+
+            <TextView
+                android:id="@+id/txtVolIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Volúmen :"></TextView>
+
+            <TextView
+                android:id="@+id/txtNumerIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Número :"></TextView>
+
+            <TextView
+                android:id="@+id/txtañoIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Año :"></TextView>
+
+            <TextView
+                android:id="@+id/txtFechaIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha de publicación :"></TextView>
+
+            <TextView
+                android:id="@+id/txtDOIIS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:text="DOI :"></TextView>
+
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

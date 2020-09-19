@@ -1,6 +1,7 @@
 package com.example.revistasuteq.adaptador;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +19,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdaptadorRevista extends RecyclerView.Adapter<AdaptadorRevista.ViewHolder> {
+public class AdaptadorRevista extends RecyclerView.Adapter<AdaptadorRevista.ViewHolder>implements View.OnClickListener {
     private Context mContext ;
     private ArrayList<Revista> mData ;
+    private View.OnClickListener onClickListener;
 
 
     public AdaptadorRevista(Context context, ArrayList<Revista> lista){
@@ -30,20 +32,24 @@ public class AdaptadorRevista extends RecyclerView.Adapter<AdaptadorRevista.View
 
 
 
-
+    public void setOnClickListener(View.OnClickListener onClickListenerp){
+        this.onClickListener=onClickListenerp;
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View item = inflater.inflate(R.layout.item_journal,parent , false);
         //View v = LayoutInflater.from(mcontext).inflate(R.layout.ly_itemsempleo,parent,false);
+        item.setOnClickListener(this);
         return new ViewHolder(item);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String s=Html.fromHtml( mData.get(position).getDescripJ()).toString();
         holder.nombreJ.setText(mData.get(position).getNombreJ());
-        holder.descripJ.setText(mData.get(position).getDescripJ());
+        holder.descripJ.setText(s);
         Picasso.with(mContext)
                 .load(mData.get(position).getImgUrlJ())
                 .into(holder.imageView);
@@ -52,6 +58,13 @@ public class AdaptadorRevista extends RecyclerView.Adapter<AdaptadorRevista.View
     @Override
     public int getItemCount() {
         return mData.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener!=null){
+            onClickListener.onClick(v);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

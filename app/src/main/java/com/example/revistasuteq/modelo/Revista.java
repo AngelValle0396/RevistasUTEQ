@@ -7,12 +7,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class Revista {
-    private String nombreJ, descripJ,imgUrlJ;
+    private String nombreJ, descripJ,imgUrlJ,idJ;
 
-    public Revista(String nombreJ, String descripJ, String imgUrlJ) {
+    public String getIdJ() {
+        return idJ;
+    }
+
+    public void setIdJ(String idJ) {
+        this.idJ = idJ;
+    }
+
+    public Revista(String nombreJ, String descripJ, String imgUrlJ, String idJ) {
         this.nombreJ = nombreJ;
         this.descripJ = descripJ;
         this.imgUrlJ = imgUrlJ;
+        this.idJ=idJ;
     }
 
     public Revista() {
@@ -45,11 +54,8 @@ public class Revista {
     public Revista(JSONObject item) throws JSONException {
         nombreJ= item.getString("name");
         descripJ= item.getString("description");
-        //descripJ= (String)item
         imgUrlJ= item.getString("portada");
-
-
-
+        idJ=item.getString("journal_id");
     }
     public static ArrayList<Revista> JsonObjectsBuild(JSONArray datos) throws JSONException {
         ArrayList<Revista> revistas = new ArrayList<>();

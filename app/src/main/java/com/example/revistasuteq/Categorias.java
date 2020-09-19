@@ -1,38 +1,37 @@
 package com.example.revistasuteq;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.revistasuteq.WebServices.Asynchtask;
 import com.example.revistasuteq.WebServices.WebService;
+import com.example.revistasuteq.adaptador.AdaptadorCategoria;
+import com.example.revistasuteq.adaptador.AdaptadorEdicion;
 import com.example.revistasuteq.adaptador.AdaptadorRevista;
+import com.example.revistasuteq.modelo.Articulo;
+import com.example.revistasuteq.modelo.Categoria;
+import com.example.revistasuteq.modelo.Edicion;
 import com.example.revistasuteq.modelo.Revista;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -42,33 +41,45 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class MainActivity extends AppCompatActivity implements Asynchtask
-{
+public class Categorias extends AppCompatActivity {
+    RecyclerView rvItem;
     private RequestQueue queue;
-    ArrayList<Revista> lstRevistas;
-    RecyclerView myrv;
-    Intent intent;
-    AdaptadorRevista adapator;
-    private  Bundle bundle;
+    List<Categoria> itemList;
+    LinearLayoutManager layoutManager;
+    Bundle bundle;
+    List<Articulo> subItemList;
+    String idC,idIS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        queue=Volley.newRequestQueue(MainActivity.this);
-        bundle = this.getIntent().getExtras();
-        myrv = (RecyclerView)findViewById(R.id.rwrevistas);
-        myrv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        setContentView(R.layout.activity_categorias);
+        rvItem =  findViewById(R.id.rv_item);
+        rvItem.setLayoutManager(new LinearLayoutManager(Categorias.this));
+        queue= Volley.newRequestQueue(Categorias.this);
+       // queue2= Volley.newRequestQueue(Categorias.this);
+        bundle=this.getIntent().getExtras();
+        layoutManager= new LinearLayoutManager(Categorias.this);
+        //AdaptadorCategoria itemAdapter = new AdaptadorCategoria(buildItemList());
         handleSSLHandshake();
-        //LgVolley();
-        llamadoWS();
+        LgVolley(bundle.getString("idIS"));
+
     }
-    private void llamadoWS(){
-        String url ="https://revistas.uteq.edu.ec/ws/journals.php";
+
+    /*private void llamadoWS(){
+        String url ="https://revistas.uteq.edu.ec/ws/issues.php?j_id="+bundle.getString("id");
         Map<String, String> datos = new HashMap<String, String>();
         WebService ws= new WebService(url,
-                datos, MainActivity.this, MainActivity.this);
+                datos, Categorias.this, Categorias.this);
         ws.execute("GET");
-    }
+    }*/
+    /*private List<Categoria> buildItemList() {
+        itemList = new ArrayList<>();
+        for (int i=0; i<10; i++) {
+            Categoria item = new Categoria("Item "+i, buildSubItemList());
+            itemList.add(item);
+        }
+        return itemList;
+    }*/
     public static void handleSSLHandshake() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -97,40 +108,53 @@ public class MainActivity extends AppCompatActivity implements Asynchtask
         } catch (Exception ignored) {
         }
     }
-    private void LgVolley(){
-       final String urllg="https://revistas.uteq.edu.ec/ws/journals.php";
-        /*HashMap<String, String> params = new HashMap<String, String>();
 
-        JsonObjectRequest req = new JsonObjectRequest(urllg, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonlista= new JSONArray(response);
-                            lstRevistas = Revista.JsonObjectsBuild(jsonlista);
-                            adapator= new AdaptadorRevista(getApplicationContext(), lstRevistas);
-                            myrv.setAdapter(adapator);
-
-                        }catch (JSONException e)
-                        {
-                            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG);
-                        }
+    private List<Articulo> buildSubItemList(String id) {
+        subItemList= new ArrayList<>();
+        final String urllg="https://revistas.uteq.edu.ec/ws/pubs.php?i_id="+idIS+"&section="+id;
+        /*try {
+            StringRequest stringRe = new StringRequest(Request.Method.GET, urllg, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONArray jsonlista= new JSONArray(response);
+                        subItemList = Articulo.JsonObjectsBuild(jsonlista);
+                    }catch (JSONException e)
+                    {
+                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(),Toast.LENGTH_LONG);
-            }
-        });*/
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error)
+                {
+                    Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG);
+                }
+            });
+            queue.add(stringRe);
+        }
+        catch (Exception EX){
+            String s;
+            s=EX.getMessage();
+        }*/
+        return subItemList;
+    }
+    private void LgVolley(String idIs){
+        final String urllg="https://revistas.uteq.edu.ec/ws/pubs.php?i_id="+idIs;
+        idIS=idIs;
+        String sectionC="";
         try {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, urllg, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     try {
                         JSONArray jsonlista= new JSONArray(response);
-                        lstRevistas = Revista.JsonObjectsBuild(jsonlista);
-                        adapator= new AdaptadorRevista(getApplicationContext(), lstRevistas);
-                        myrv.setAdapter(adapator);
+                        //itemList= Categoria.JsonObjectsBuild(jsonlista);
+
+                        subItemList=Articulo.JsonObjectsBuild(jsonlista);
+                        itemList = Categoria.JsonObjectBuild(subItemList);
+                        AdaptadorCategoria adaptadorCategoria= new AdaptadorCategoria(itemList);
+                        rvItem.setAdapter(adaptadorCategoria);
 
                     }catch (JSONException e)
                     {
@@ -145,29 +169,26 @@ public class MainActivity extends AppCompatActivity implements Asynchtask
                 }
             });
             queue.add(stringRequest);
-
         }
         catch (Exception EX){
-             String s;
-             s=EX.getMessage();
+            String s;
+            s=EX.getMessage();
         }
-           }
 
-    @Override
+
+    }
+
+
+    /*@Override
     public void processFinish(String result) throws JSONException {
         try {
             JSONArray jsonlista= new JSONArray(result);
-             intent= new Intent(MainActivity.this, Ediciones.class);
-            bundle = new Bundle();
-            lstRevistas = Revista.JsonObjectsBuild(jsonlista);
-            adapator= new AdaptadorRevista(getApplicationContext(), lstRevistas);
+            lstediciones = Edicion.JsonObjectsBuild(jsonlista);
+            adapator= new AdaptadorEdicion(getApplicationContext(), lstediciones);
             adapator.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),"Seleccionó la revista : " + lstRevistas.get(myrv.getChildAdapterPosition(v)).getNombreJ(),Toast.LENGTH_SHORT).show();
-                    bundle.putString("id",   lstRevistas.get(myrv.getChildAdapterPosition(v)).getIdJ());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),"Seleccionó la edición:" + lstediciones.get(myrv.getChildAdapterPosition(v)).getTituloIS(),Toast.LENGTH_SHORT).show();
                 }
             });
             myrv.setAdapter(adapator);
@@ -176,5 +197,5 @@ public class MainActivity extends AppCompatActivity implements Asynchtask
         {
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG);
         }
-    }
+    }*/
 }
