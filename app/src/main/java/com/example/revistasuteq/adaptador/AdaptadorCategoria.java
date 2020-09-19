@@ -15,12 +15,15 @@ import com.example.revistasuteq.modelo.Edicion;
 
 import java.util.List;
 
-public class AdaptadorCategoria extends RecyclerView.Adapter<AdaptadorCategoria.ItemViewHolder> {
+public class AdaptadorCategoria extends RecyclerView.Adapter<AdaptadorCategoria.ItemViewHolder>implements View.OnClickListener {
 
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<Categoria> itemList;
+    private View.OnClickListener onClickListener;
 
-
+    public void setOnClickListener(View.OnClickListener onClickListenerp){
+        this.onClickListener=onClickListenerp;
+    }
 
     public AdaptadorCategoria(List<Categoria> itemList) {
         this.itemList = itemList;
@@ -30,6 +33,7 @@ public class AdaptadorCategoria extends RecyclerView.Adapter<AdaptadorCategoria.
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category, viewGroup, false);
+        view.setOnClickListener(this);
         return new ItemViewHolder(view);
     }
 
@@ -56,6 +60,13 @@ public class AdaptadorCategoria extends RecyclerView.Adapter<AdaptadorCategoria.
     @Override
     public int getItemCount() {
         return itemList.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener!=null){
+            onClickListener.onClick(v);
+        }
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {

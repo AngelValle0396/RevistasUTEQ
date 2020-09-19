@@ -96,6 +96,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Fecha :"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:textStyle="bold"></TextView>
+            <TextView
+                android:id="@+id/txtFechaAR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="16dp"
+                android:text="Volúmen :"></TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Resumen :"
                 android:textAlignment="center"
                 android:textSize="16dp"
@@ -107,8 +121,6 @@
                 android:textAlignment="center"
                 android:textSize="16dp"
                 android:text="Volúmen :"></TextView>
-
-
         </LinearLayout>
 
 

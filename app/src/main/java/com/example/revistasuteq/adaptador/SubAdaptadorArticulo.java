@@ -17,19 +17,23 @@ import com.example.revistasuteq.modelo.Edicion;
 
 import java.util.List;
 
-public class SubAdaptadorArticulo extends RecyclerView.Adapter<SubAdaptadorArticulo.SubItemViewHolder> {
+public class SubAdaptadorArticulo extends RecyclerView.Adapter<SubAdaptadorArticulo.SubItemViewHolder> implements View.OnClickListener{
 
     private List<Articulo> subItemList;
     private Edicion e;
+    private View.OnClickListener onClickListener;
 
     SubAdaptadorArticulo(List<Articulo> subItemList) {
         this.subItemList = subItemList;
     }
-
+    public void setOnClickListener(View.OnClickListener onClickListenerp){
+        this.onClickListener=onClickListenerp;
+    }
     @NonNull
     @Override
     public SubItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.sub_item_category, viewGroup, false);
+        view.setOnClickListener(this);
         return new SubItemViewHolder(view);
     }
 
@@ -44,6 +48,13 @@ public class SubAdaptadorArticulo extends RecyclerView.Adapter<SubAdaptadorArtic
     @Override
     public int getItemCount() {
         return subItemList.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onClickListener!=null){
+            onClickListener.onClick(v);
+        }
     }
 
     class SubItemViewHolder extends RecyclerView.ViewHolder {

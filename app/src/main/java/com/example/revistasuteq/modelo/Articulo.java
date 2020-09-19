@@ -8,7 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Articulo {
-    private String tituloA, doiA,abstractA,fechaA,urlPDFA,urlHTMLA,keywordsA,section,autoresA;
+    private String tituloA, doiA,abstractA,fechaA,urlPDFA,urlHTMLA,keywordsA,section,autoresA,submissA;
+
+    public String getSubmissA() {
+        return submissA;
+    }
+
+    public void setSubmissA(String submissA) {
+        this.submissA = submissA;
+    }
+
     private JSONArray objectAu;
     private String aux="";
 
@@ -89,7 +98,7 @@ public class Articulo {
         this.keywordsA = keywordsA;
     }
 
-    public Articulo(String tituloA, String doiA, String abstractA, String fechaA, String urlPDFA, String urlHTMLA, String keywordsA,String section,String autores) {
+    public Articulo(String tituloA, String doiA, String abstractA, String fechaA, String urlPDFA, String urlHTMLA, String keywordsA,String section,String autores, String submissA) {
         this.tituloA = tituloA;
         this.doiA = doiA;
         this.abstractA = abstractA;
@@ -99,6 +108,7 @@ public class Articulo {
         this.keywordsA = keywordsA;
         this.section=section;
         this.autoresA=autores;
+        this.submissA=submissA;
     }
 
     public Articulo(JSONObject item) throws JSONException {
@@ -126,13 +136,52 @@ public class Articulo {
         this.urlHTMLA = item.getString("section");
         this.keywordsA = item.getString("section");
         this.section=item.getString("section");
+        this.submissA=item.getString("submission_id");
 
+    }
+    public Articulo(JSONObject item,String id) throws JSONException {
+        if(item.getString("submission_id").equals(id)){
+            this.tituloA =item.getString("title");
+            this.doiA = item.getString("doi");
+            this.abstractA = item.getString("abstract");
+            this.fechaA = item.getString("date_published");
+            this.objectAu=item.getJSONArray("authors");
+
+            for (int i=0;i<this.objectAu.length();i++){
+                JSONObject object2 = (JSONObject) this.objectAu.get(i);
+                Autores au =new Autores();
+                aux=aux+object2.getString("nombres");
+
+                if (i!=this.objectAu.length()-1){aux=aux+", ";}
+
+                au.setAutores(object2.getString("nombres"));
+                au.setFiliacion(object2.getString("filiacion"));
+                au.setEmail(object2.getString("email"));
+                //arrayListAU.add(au);
+            }
+            this.autoresA=aux;
+            this.urlPDFA = item.getString("section");
+            this.urlHTMLA = item.getString("section");
+            this.keywordsA = item.getString("section");
+            this.section=item.getString("section");
+            this.submissA=item.getString("submission_id");
+
+        }
     }
     public static ArrayList<Articulo> JsonObjectsBuild(JSONArray datos) throws JSONException {
         ArrayList<Articulo> articulos = new ArrayList<>();
 
         for (int i = 0; i < datos.length() ; i++) {
             articulos.add(new Articulo(datos.getJSONObject(i)));
+        }
+        return articulos;
+    }
+    public static ArrayList<Articulo> getArticulo (JSONArray datos,String submissAid) throws JSONException {
+        ArrayList<Articulo> articulos = new ArrayList<>();
+
+        for (int i = 0; i < datos.length() ; i++) {
+
+            articulos.add(new Articulo(datos.getJSONObject(i),submissAid));
         }
         return articulos;
     }
@@ -161,7 +210,8 @@ public class Articulo {
                             articulos.get(j).getUrlHTMLA(),
                             articulos.get(j).getKeywordsA(),
                             articulos.get(j).getSection(),
-                            articulos.get(j).getAutoresA()
+                            articulos.get(j).getAutoresA(),
+                            articulos.get(j).getSubmissA()
                     ));
                 }
             }

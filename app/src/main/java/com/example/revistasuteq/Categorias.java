@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,6 +54,8 @@ public class Categorias extends AppCompatActivity {
     List<Articulo> subItemList;
     String idC,idIS;
     ImageView img;
+    Intent intent;
+    String idISAUX;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,31 +64,16 @@ public class Categorias extends AppCompatActivity {
         img=findViewById(R.id.img_sub_item);
         rvItem.setLayoutManager(new LinearLayoutManager(Categorias.this));
         queue= Volley.newRequestQueue(Categorias.this);
-       // queue2= Volley.newRequestQueue(Categorias.this);
+
         bundle=this.getIntent().getExtras();
         layoutManager= new LinearLayoutManager(Categorias.this);
-        //AdaptadorCategoria itemAdapter = new AdaptadorCategoria(buildItemList());
+idISAUX=bundle.getString("idIS");
         handleSSLHandshake();
-        LgVolley(bundle.getString("idIS"));
+        LgVolley(idISAUX);
 
 
     }
 
-    /*private void llamadoWS(){
-        String url ="https://revistas.uteq.edu.ec/ws/issues.php?j_id="+bundle.getString("id");
-        Map<String, String> datos = new HashMap<String, String>();
-        WebService ws= new WebService(url,
-                datos, Categorias.this, Categorias.this);
-        ws.execute("GET");
-    }*/
-    /*private List<Categoria> buildItemList() {
-        itemList = new ArrayList<>();
-        for (int i=0; i<10; i++) {
-            Categoria item = new Categoria("Item "+i, buildSubItemList());
-            itemList.add(item);
-        }
-        return itemList;
-    }*/
     public static void handleSSLHandshake() {
         try {
             TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
@@ -115,51 +103,31 @@ public class Categorias extends AppCompatActivity {
         }
     }
 
-    private List<Articulo> buildSubItemList(String id) {
-        subItemList= new ArrayList<>();
-        final String urllg="https://revistas.uteq.edu.ec/ws/pubs.php?i_id="+idIS+"&section="+id;
-        /*try {
-            StringRequest stringRe = new StringRequest(Request.Method.GET, urllg, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    try {
-                        JSONArray jsonlista= new JSONArray(response);
-                        subItemList = Articulo.JsonObjectsBuild(jsonlista);
-                    }catch (JSONException e)
-                    {
-                        Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG);
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error)
-                {
-                    Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_LONG);
-                }
-            });
-            queue.add(stringRe);
-        }
-        catch (Exception EX){
-            String s;
-            s=EX.getMessage();
-        }*/
-        return subItemList;
-    }
+
     private void LgVolley(String idIs){
         final String urllg="https://revistas.uteq.edu.ec/ws/pubs.php?i_id="+idIs;
         idIS=idIs;
-        String sectionC="";
+        intent= new Intent(Categorias.this, com.example.revistasuteq.Articulo.class);
         try {
             StringRequest stringRequest = new StringRequest(Request.Method.GET, urllg, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     try {
                         JSONArray jsonlista= new JSONArray(response);
-                        //itemList= Categoria.JsonObjectsBuild(jsonlista);
-
                         subItemList=Articulo.JsonObjectsBuild(jsonlista);
                         itemList = Categoria.JsonObjectBuild(subItemList);
                         AdaptadorCategoria adaptadorCategoria= new AdaptadorCategoria(itemList);
+                        rvItem.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                bundle=new Bundle();
+                                bundle.putString("submissID",   subItemList.get(rvItem.getChildAdapterPosition(v)).getSubmissA());
+                                bundle.putString("issueID",    idISAUX);
+                                intent.putExtras(bundle);
+                                Toast.makeText(getApplicationContext(),"Seleccionó el artículo: " + subItemList.get(rvItem.getChildAdapterPosition(v)).getTituloA(),Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+                            }
+                        });
                         rvItem.setAdapter(adaptadorCategoria);
 
                     }catch (JSONException e)
@@ -185,23 +153,5 @@ public class Categorias extends AppCompatActivity {
     }
 
 
-    /*@Override
-    public void processFinish(String result) throws JSONException {
-        try {
-            JSONArray jsonlista= new JSONArray(result);
-            lstediciones = Edicion.JsonObjectsBuild(jsonlista);
-            adapator= new AdaptadorEdicion(getApplicationContext(), lstediciones);
-            adapator.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(),"Seleccionó la edición:" + lstediciones.get(myrv.getChildAdapterPosition(v)).getTituloIS(),Toast.LENGTH_SHORT).show();
-                }
-            });
-            myrv.setAdapter(adapator);
 
-        }catch (JSONException e)
-        {
-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_LONG);
-        }
-    }*/
 }

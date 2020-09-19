@@ -90,7 +90,8 @@ public class Categoria {
                             articulos.get(j).getUrlHTMLA(),
                             articulos.get(j).getKeywordsA(),
                             articulos.get(j).getSection(),
-                            articulos.get(j).getAutoresA()
+                            articulos.get(j).getAutoresA(),
+                            articulos.get(j).getSubmissA()
                     ));
                 }
             }

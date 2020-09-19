@@ -32,8 +32,8 @@ public class AdaptadorRevista extends RecyclerView.Adapter<AdaptadorRevista.View
 
 
 
-    public void setOnClickListener(View.OnClickListener onClickListenerp){
-        this.onClickListener=onClickListenerp;
+    public void setOnClickListener(View.OnClickListener onClickListener){
+        this.onClickListener=onClickListener;
     }
     @NonNull
     @Override
